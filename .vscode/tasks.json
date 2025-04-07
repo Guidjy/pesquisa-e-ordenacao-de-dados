@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build all C files",
+            "type": "shell",
+            "command": "gcc",
+            "args": [
+                "*.c",      // Compile all C files in the root folder
+                "-o", "main",  // Name the output executable "a" in the root folder
+                "-g"        // Include debug symbols for debugging
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Compiling all C files and creating executable 'main'"
+        }
+    ]
+}
