@@ -4,14 +4,6 @@
 #include "lista.h"
 
 
-struct _lista {
-    int cap;         // capacidade máxima da lista
-    int n_elem;      // número de elementos na lista
-    int *elementos;  // lista de inteiros
-};
-// typedef struct lista *Lista; >>> lista.h
-
-
 Lista lista_cria(int tamanho) {
     // aloca memória para a estrutura de uma nova lista
     Lista nova = (Lista) malloc(sizeof(struct _lista));
@@ -22,8 +14,8 @@ Lista lista_cria(int tamanho) {
     nova->cap = tamanho;
     nova->n_elem = 0;
     // aloca memória para os elementos da lista
-    nova->elementos = (int*) malloc(sizeof(int) * tamanho);
-    if (nova->elementos == NULL) {
+    nova->vetor = (int*) malloc(sizeof(int) * tamanho);
+    if (nova->vetor == NULL) {
         printf("Erro na alocação de memória para os elementos da lista");
         free(nova);
         return NULL;
@@ -33,7 +25,7 @@ Lista lista_cria(int tamanho) {
 
 
 void lista_destroi(Lista lista) {
-    free(lista->elementos);
+    free(lista->vetor);
     free(lista);
 }
 
@@ -48,23 +40,33 @@ void lista_insere(Lista lista, int num) {
         printf("Lista cheia. Não se pode inserir elementos\n");
         return;
     }
-    lista->elementos[lista->n_elem] = num;
+    lista->vetor[lista->n_elem] = num;
     lista->n_elem++;
 }
 
 
 void lista_preenche(Lista lista, int intervalo) {
     for (int i = 0; i < lista->cap; i++) {
-        lista->elementos[i] = rand() % intervalo;
+        lista->vetor[i] = rand() % intervalo;
     }
     lista->n_elem = lista->cap;
+}
+
+
+void lista_swap(Lista lista, int pos_1, int pos_2) {
+    // verifica se os índices de posição são válidos
+    if ((0 <= pos_1 && pos_1 < lista->n_elem) && (0 <= pos_2 && pos_2 < lista->n_elem)) {
+        int temp = lista->vetor[pos_1];
+        lista->vetor[pos_1] = lista->vetor[pos_2];
+        lista->vetor[pos_2] = temp;
+    }
 }
 
 
 void lista_imprime(Lista lista) {
     printf("[");
     for (int i = 0; i < lista->n_elem - 1; i++) {
-        printf("%d, ", lista->elementos[i]);
+        printf("%d, ", lista->vetor[i]);
     }
-    printf("%d]\n", lista->elementos[lista->n_elem - 1]);
+    printf("%d]\n", lista->vetor[lista->n_elem - 1]);
 }

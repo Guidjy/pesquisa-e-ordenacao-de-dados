@@ -3,6 +3,11 @@
 
 #include <stdbool.h>
 
+struct _lista {
+    int cap;         // capacidade máxima da lista
+    int n_elem;      // número de elementos na lista
+    int *vetor;      // vetor de inteiros
+};
 typedef struct _lista *Lista;
 
 // cria uma lista que suporta "tamanho" elementos
@@ -19,6 +24,9 @@ void lista_insere(Lista lista, int num);
 
 // preenche a lista com valores aleatórios em um intervalo
 void lista_preenche(Lista lista, int intervalo);
+
+// troca dois elementos de posição
+void lista_swap(Lista lista, int pos_1, int pos_2);
 
 // imprime os elementos de uma Lista
 void lista_imprime(Lista lista);
