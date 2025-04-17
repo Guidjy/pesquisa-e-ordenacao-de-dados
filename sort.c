@@ -42,3 +42,27 @@ void selection_sort(Lista lista) {
         lista_swap(lista, i, min);
     }
 }
+
+
+void shell_sort(Lista lista) {
+    // Calcula o maior intervalo h da sequência de Knuth (1, 4, 13, 40, ...)
+    int h = 1;
+    while (h < lista->n_elem) {
+        h = 3 * h + 1;
+    }
+
+    // executa o shellsort usando h decrescentes
+    while (h > 1) {
+        h /= 3;
+
+        for (int i = h; i < lista->n_elem; i++) {
+            int pivo = lista->vetor[i];
+            int j = i - h;
+            while (j >= 0 && lista->vetor[j] > pivo) {
+                lista->vetor[j+h] = lista->vetor[j];
+                j -= h;
+            }
+            lista->vetor[j+h] = pivo;
+        }
+    }
+}
