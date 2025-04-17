@@ -12,7 +12,7 @@ int main() {
     Lista lista1 = lista_cria(20);
     lista_preenche(lista1, 50);
     lista_imprime(lista1);
-    shell_sort(lista1);
+    merge_sort(lista1, 0, lista1->n_elem-1);
     lista_imprime(lista1);
     lista_destroi(lista1);
     return 0;

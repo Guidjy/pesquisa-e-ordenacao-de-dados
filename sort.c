@@ -46,7 +46,7 @@ void selection_sort(Lista lista) {
 
 void shell_sort(Lista lista) {
     // Calcula o maior intervalo h da sequência de Knuth (1, 4, 13, 40, ...)
-    int h = 1;
+    int h = 1; 
     while (h < lista->n_elem) {
         h = 3 * h + 1;
     }
@@ -55,14 +55,61 @@ void shell_sort(Lista lista) {
     while (h > 1) {
         h /= 3;
 
+        // percorre a lista a partir de h
         for (int i = h; i < lista->n_elem; i++) {
             int pivo = lista->vetor[i];
             int j = i - h;
+            // inserção adaptada para h-elementos
             while (j >= 0 && lista->vetor[j] > pivo) {
                 lista->vetor[j+h] = lista->vetor[j];
                 j -= h;
             }
             lista->vetor[j+h] = pivo;
         }
+    }
+}
+
+
+static void merge(Lista lista, int inicio, int meio, int fim) {
+    int i = inicio;
+    int j = meio + 1;
+    int k = 0;
+    int aux[fim - inicio + 1];  // tamanho correto do subvetor
+
+    // mistura os dois subvetores ordenados
+    while (i <= meio && j <= fim) {
+        if (lista->vetor[i] <= lista->vetor[j]) {
+            aux[k++] = lista->vetor[i++];
+        } else {
+            aux[k++] = lista->vetor[j++];
+        }
+    }
+
+    // copia o que sobrou do primeiro subvetor (se sobrou)
+    while (i <= meio) {
+        aux[k++] = lista->vetor[i++];
+    }
+
+    // copia o que sobrou do segundo subvetor (se sobrou)
+    while (j <= fim) {
+        aux[k++] = lista->vetor[j++];
+    }
+
+    // copia de volta para o vetor original
+    for (i = 0; i < k; i++) {
+        lista->vetor[inicio + i] = aux[i];
+    }
+}
+
+
+
+void merge_sort(Lista lista, int inicio, int fim) {
+    if (inicio < fim) {
+        int meio = (inicio + fim) / 2;
+
+        merge_sort(lista, inicio, meio);
+        merge_sort(lista, meio + 1, fim);
+        
+        merge(lista, inicio, meio, fim);
     }
 }
