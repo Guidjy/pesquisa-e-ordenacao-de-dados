@@ -18,4 +18,6 @@ void shell_sort(Lista lista);
 // O(n log n)
 void merge_sort(Lista lista, int inicio, int fim);
 
+void quick_sort(Lista lista, int inicio, int fim);
+
 #endif  

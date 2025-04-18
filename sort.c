@@ -102,7 +102,6 @@ static void merge(Lista lista, int inicio, int meio, int fim) {
 }
 
 
-
 void merge_sort(Lista lista, int inicio, int fim) {
     if (inicio < fim) {
         int meio = (inicio + fim) / 2;
@@ -111,5 +110,47 @@ void merge_sort(Lista lista, int inicio, int fim) {
         merge_sort(lista, meio + 1, fim);
         
         merge(lista, inicio, meio, fim);
+    }
+}
+
+
+// retorna um índice j, no qual será colocado o pivô, tal que:
+//     > lista[inicio] ... lista[j-1] <= lista[j]
+//     > lista[j+1] ... lista[fim] > lista[j]
+// O(n)
+static int particao(Lista lista, int inicio, int fim) {
+    int pivo = lista->vetor[inicio];
+    int i = inicio + 1;
+    int j = fim;
+
+    // procedimentos são repetidos até que i > j
+    while (i <= j) {
+        // i avança até encontrar um elemento maior que o pivô
+        while (i <= j && lista->vetor[i] <= pivo) {
+            i++;
+        }
+        // j recua até encontrar um elemento menor ou igual ao pivô
+        while (lista->vetor[j] > pivo) {
+            j--;
+        }
+        // troca os elementos em i e j
+        if (i <= j) {
+            lista_swap(lista, i, j);
+            i = i + 1;
+            j = j - 1;
+        }
+    }
+
+    lista_swap(lista, inicio, j);
+    return j;
+}
+
+
+void quick_sort(Lista lista, int inicio, int fim) {
+    if (inicio < fim) {
+        int j = particao(lista, inicio, fim);
+        // chama quicksort nas partições esquerda e direita
+        quick_sort(lista, inicio, j - 1);
+        quick_sort(lista, j + 1, fim);
     }
 }
