@@ -45,6 +45,17 @@ void lista_insere(Lista lista, int num) {
 }
 
 
+int lista_max(Lista lista) {
+    int maior = 0;
+    for (int i = 0; i < lista->n_elem; i++) {
+        if (i == 0 || maior < lista->vetor[i]) {
+            maior = lista->vetor[i];
+        }
+    }
+    return maior;
+}
+
+
 void lista_preenche(Lista lista, int intervalo) {
     for (int i = 0; i < lista->cap; i++) {
         lista->vetor[i] = rand() % intervalo;

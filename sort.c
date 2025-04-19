@@ -2,6 +2,7 @@
 #include "sort.h"
 #include "lista.h"
 #include "heap.h"
+#include "lista_encadeada.h"
 
 
 void bubble_sort(Lista lista) {
@@ -174,4 +175,72 @@ void heap_sort(Lista lista) {
     }
 
     heap_destroi(heap);
+}
+
+
+void counting_sort(Lista lista) {
+    // descobre o limite superior do intervalo de números da lista
+    int lim_sup = lista_max(lista);
+    // inicializa o vetor de número de instâncias de cada elemento na lista
+    int c[lim_sup+1];
+    for (int i = 0; i < lim_sup+1; i++) {
+        c[i] = 0;
+    }
+    // percorre a lista para contar o número de instâncias de cada elemento na lista
+    for (int i = 0; i < lista->n_elem; i++) {
+        c[ lista->vetor[i] ]++;
+    }
+    // realiza a soma acumulado do vetor de n_instâncias
+    for (int i = 1; i <= lim_sup; i++) {
+        c[i] += c[i-1];
+    }
+    // ordenação da lista
+    int aux[lista->cap];
+    for (int i = lista->n_elem - 1; i >= 0; i--) {
+        c[lista->vetor[i]]--;
+        aux[c[lista->vetor[i]]] = lista->vetor[i];  // rasclart 0-0. pag 48
+    }
+    // copia a lista auxiliar para a original
+    for (int i = 0; i < lista->n_elem; i++) {
+        lista->vetor[i] = aux[i];
+    }
+}
+
+
+void bucket_sort(Lista lista) {
+    // a ideia do método é dividir o intervalo que vai de 0 - k em n subintervalos de mesmo tamanho.
+    // cada subintervalo estará associado a uma lista encadeada que irá conter os elementos da
+    // lista original que pertencem àquele subintervalo. Em seguida, ordenamos as listas encadeadas
+    // usando um método de ordenação qualquer (de preferência estável).
+
+    // bucket: vetor de listas encadeadas. Se k é o maior elemento da lista,
+    // cada posição do bucket apontará para uma lista na qual serão inseridos os elementos
+    // da lista que pertencem ao intervalo [i*(k+1)/n, (i+1)*(k=1)/n]
+    Lista_encadeada bucket[lista->n_elem];
+    for (int i = 0; i < lista->n_elem; i++) {
+        bucket[i] = lista_encadeada_cria(sizeof(int));
+    }
+    
+    // construindo as listas encadeadas
+    int k = lista_max(lista);
+    for (int i = lista->n_elem - 1; i >= 0; i--) {
+        // 0-0: ta uma bagunça do caraleo essa implementação de lista encadeada
+        int num = lista->vetor[i];
+        lista_encadeada_insere(bucket[lista->vetor[i] * lista->n_elem / (k + 1)], &num);
+    }
+
+    // ordenando e concatenando as listas encadeadas
+    int j = 0;
+    for (int i = 0; i < lista->n_elem; i++) {
+        // ordena a lista em bucket[i]
+        lista_encadeada_sort(bucket[i]);
+        void *removido = malloc(sizeof(int));
+        while (!lista_encadeada_vazia(bucket[i])) {
+            lista_encadeada_remove(bucket[i], removido);
+            lista->vetor[j] = *(int*) removido;
+            j++;
+        }
+        free(removido);
+        lista_encadeada_destroi(bucket[i]);
+    }
 }

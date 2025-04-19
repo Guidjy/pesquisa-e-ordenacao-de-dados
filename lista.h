@@ -22,6 +22,9 @@ bool lista_cheia(Lista lista);
 // insere um inteiro na lista
 void lista_insere(Lista lista, int num);
 
+// retorna o maior valor da lista
+int lista_max(Lista lista);
+
 // preenche a lista com valores aleatórios em um intervalo
 void lista_preenche(Lista lista, int intervalo);
 

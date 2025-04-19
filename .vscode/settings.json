@@ -60,6 +60,7 @@
     "heap.h": "c",
     "stdbool.h": "c",
     "stdlib.h": "c",
-    "lista.h": "c"
+    "lista.h": "c",
+    "stdio.h": "c"
   }
 }

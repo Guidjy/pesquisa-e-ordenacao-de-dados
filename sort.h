@@ -21,6 +21,12 @@ void merge_sort(Lista lista, int inicio, int fim);
 // O(n log n)
 void quick_sort(Lista lista, int inicio, int fim);
 
+// O(n log n)
 void heap_sort(Lista lista);
+
+// O(n + k)
+void counting_sort(Lista lista);
+
+void bucket_sort(Lista lista);
 
 #endif  

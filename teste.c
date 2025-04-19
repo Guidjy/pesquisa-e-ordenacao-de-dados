@@ -4,7 +4,6 @@
 #include <stdio.h>
 #include "lista.h"
 #include "sort.h"
-#include "heap.h"
 
 
 int main() {
@@ -15,8 +14,6 @@ int main() {
     lista_imprime(lista1);
     heap_sort(lista1);
     lista_imprime(lista1);
-
-
 
     lista_destroi(lista1);
     return 0;
