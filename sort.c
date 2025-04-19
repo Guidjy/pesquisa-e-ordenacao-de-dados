@@ -1,5 +1,7 @@
-#include "lista.h"
+#include <stdlib.h>
 #include "sort.h"
+#include "lista.h"
+#include "heap.h"
 
 
 void bubble_sort(Lista lista) {
@@ -153,4 +155,23 @@ void quick_sort(Lista lista, int inicio, int fim) {
         quick_sort(lista, inicio, j - 1);
         quick_sort(lista, j + 1, fim);
     }
+}
+
+
+void heap_sort(Lista lista) {
+    // cria um heap binário
+    Heap heap = heap_cria(lista->n_elem);
+    if (heap == NULL) return;
+
+    // insere todos os elementos da lista no heap
+    for (int i = 0; i < lista->n_elem; i++) {
+        heap_insere(heap, lista->vetor[i]);
+    }
+
+    // remove todos os elementos do heap e os inserem de volta na lista
+    for (int i = 0; i < lista->n_elem; i++) {
+        lista->vetor[i] = heap_remove_min(heap);
+    }
+
+    heap_destroi(heap);
 }
